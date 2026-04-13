@@ -53,7 +53,7 @@ export function FreedomFromReintervention({
       // ── Axes ────────────────────────────────────────────────────────────────────
       g.append('g')
         .attr('transform', `translate(0,${innerHeight})`)
-        .call(d3.axisBottom(x).ticks(6).tickFormat(d => `${d}mo`))
+        .call(d3.axisBottom(x).ticks(6).tickFormat(d => `${d}${timeUnit === 'months' ? 'mo' : timeUnit}`))
         .call(ag => ag.select('.domain').attr('stroke', '#E5E7EB'))
         .call(ag => ag.selectAll('.tick line').attr('stroke', '#E5E7EB'))
         .call(ag => ag.selectAll('text').attr('fill', '#6B7280').attr('font-size', 11))
