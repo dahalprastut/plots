@@ -9,8 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@nivo/bar": "^0.99.0",
     "@nivo/core": "^0.99.0",
     "@nivo/heatmap": "^0.99.0",
+    "@nivo/line": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "@nivo/scatterplot": "^0.99.0",
     "d3": "^7.9.0",
     "echarts": "^6.0.0",
     "echarts-for-react": "^3.0.6",
