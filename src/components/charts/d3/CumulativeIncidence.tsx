@@ -38,8 +38,11 @@ export function CumulativeIncidence() {
       const g = svg.append('g').attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
 
       // ── Scales ──────────────────────────────────────────────────────────────────
-      const x = d3.scaleLinear([0, 36], [0, innerWidth])
-      const y = d3.scaleLinear([0, 0.35], [innerHeight, 0])
+      const maxTime = cumulativeIncidenceData[cumulativeIncidenceData.length - 1].time
+      const x = d3.scaleLinear([0, maxTime], [0, innerWidth])
+
+      const maxY = d3.max(cumulativeIncidenceData, d => Math.max(d.incidence, d.competing)) ?? 0.35
+      const y = d3.scaleLinear([0, Math.ceil(maxY * 10) / 10 + 0.05], [innerHeight, 0])
 
       // ── Grid ────────────────────────────────────────────────────────────────────
       g.append('g')
@@ -142,9 +145,12 @@ export function CumulativeIncidence() {
 
           const tx = Math.min(x(d.time) + MARGIN.left + 10, width - 200)
           const ty = Math.max(MARGIN.top, y(Math.max(d.incidence, d.competing)) + MARGIN.top - 30)
+          const tooltipLines = SERIES.map(s =>
+            `<span style="color:${s.color}">${s.label}: ${(d[s.key] * 100).toFixed(1)}%</span>`
+          ).join('<br>')
           tooltip.style('display', 'block')
             .style('left', `${tx}px`).style('top', `${ty}px`)
-            .html(`Time: ${d.time} mo<br><span style="color:#4F86C6">Reintervention: ${(d.incidence * 100).toFixed(1)}%</span><br><span style="color:#E07B54">Amputation: ${(d.competing * 100).toFixed(1)}%</span>`)
+            .html(`Time: ${d.time} mo<br>${tooltipLines}`)
         })
         .on('mouseleave', () => {
           crosshair.attr('display', 'none')
