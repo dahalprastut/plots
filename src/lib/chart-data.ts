@@ -240,3 +240,158 @@ export const cumulativeIncidenceData: CumulativeIncidenceDatum[] = [
   { time: 30, incidence: 0.24, competing: 0.10 },
   { time: 36, incidence: 0.27, competing: 0.12 },
 ]
+
+// ── Cohort Comparison Card ────────────────────────────────────────────────────
+
+export type CohortMetric = {
+  label: string   // "Primary patency at 24 months"
+  value: string   // "78.4%"
+  field: string   // "PVI_LTF_CURRPATENCY"
+}
+
+export type CohortCardData = {
+  cohortName: string
+  n: number
+  medianFollowUp: number  // months
+  metrics: CohortMetric[]
+}
+
+export const cohortCardData: CohortCardData[] = [
+  {
+    cohortName: 'Current Smokers',
+    n: 312,
+    medianFollowUp: 22.4,
+    metrics: [
+      { label: 'Primary patency at 24 months', value: '68.2%', field: 'PVI_LTF_CURRPATENCY' },
+      { label: 'Freedom from reintervention',  value: '71.4%', field: 'PVI_SITEREINTER_1'   },
+      { label: 'Amputation rate',              value: '4.8%',  field: 'LTF_AMP_R'           },
+    ],
+  },
+  {
+    cohortName: 'Non-Smokers',
+    n: 441,
+    medianFollowUp: 26.1,
+    metrics: [
+      { label: 'Primary patency at 24 months', value: '79.7%', field: 'PVI_LTF_CURRPATENCY' },
+      { label: 'Freedom from reintervention',  value: '83.1%', field: 'PVI_SITEREINTER_1'   },
+      { label: 'Amputation rate',              value: '2.1%',  field: 'LTF_AMP_R'           },
+    ],
+  },
+]
+
+// ── Freedom from Reintervention ───────────────────────────────────────────────
+
+export type FreedomFromReinterventionData = {
+  arms: Array<{
+    label: string  // "Femoral"
+    color: string  // "#4F86C6"
+    data: KmDatum[]
+  }>
+  logRankP: number
+  timeUnit?: string  // default "months"
+}
+
+export const freedomFromReinterventionData: FreedomFromReinterventionData = {
+  logRankP: 0.023,
+  timeUnit: 'months',
+  arms: [
+    {
+      label: 'Femoral', color: '#4F86C6',
+      data: [
+        { time: 0,  survival: 1.00, ci_lower: 1.00, ci_upper: 1.00, at_risk: 210 },
+        { time: 6,  survival: 0.89, ci_lower: 0.84, ci_upper: 0.93, at_risk: 187 },
+        { time: 12, survival: 0.81, ci_lower: 0.75, ci_upper: 0.86, at_risk: 164 },
+        { time: 18, survival: 0.74, ci_lower: 0.68, ci_upper: 0.80, at_risk: 138 },
+        { time: 24, survival: 0.68, ci_lower: 0.61, ci_upper: 0.75, at_risk: 112 },
+        { time: 30, survival: 0.63, ci_lower: 0.55, ci_upper: 0.71, at_risk:  84 },
+        { time: 36, survival: 0.59, ci_lower: 0.51, ci_upper: 0.67, at_risk:  60 },
+      ],
+    },
+    {
+      label: 'Popliteal', color: '#E07B54',
+      data: [
+        { time: 0,  survival: 1.00, ci_lower: 1.00, ci_upper: 1.00, at_risk: 178 },
+        { time: 6,  survival: 0.91, ci_lower: 0.86, ci_upper: 0.95, at_risk: 160 },
+        { time: 12, survival: 0.84, ci_lower: 0.78, ci_upper: 0.89, at_risk: 142 },
+        { time: 18, survival: 0.78, ci_lower: 0.71, ci_upper: 0.84, at_risk: 120 },
+        { time: 24, survival: 0.73, ci_lower: 0.65, ci_upper: 0.80, at_risk:  96 },
+        { time: 30, survival: 0.68, ci_lower: 0.60, ci_upper: 0.76, at_risk:  72 },
+        { time: 36, survival: 0.64, ci_lower: 0.55, ci_upper: 0.73, at_risk:  51 },
+      ],
+    },
+    {
+      label: 'Tibial', color: '#5BAD6F',
+      data: [
+        { time: 0,  survival: 1.00, ci_lower: 1.00, ci_upper: 1.00, at_risk: 112 },
+        { time: 6,  survival: 0.84, ci_lower: 0.76, ci_upper: 0.90, at_risk:  95 },
+        { time: 12, survival: 0.74, ci_lower: 0.65, ci_upper: 0.82, at_risk:  80 },
+        { time: 18, survival: 0.66, ci_lower: 0.56, ci_upper: 0.75, at_risk:  64 },
+        { time: 24, survival: 0.59, ci_lower: 0.49, ci_upper: 0.69, at_risk:  51 },
+        { time: 30, survival: 0.53, ci_lower: 0.43, ci_upper: 0.63, at_risk:  38 },
+        { time: 36, survival: 0.48, ci_lower: 0.37, ci_upper: 0.59, at_risk:  26 },
+      ],
+    },
+  ],
+}
+
+// ── Amputation Rate Plot ──────────────────────────────────────────────────────
+
+export type AmputationKmData = {
+  variant: 'km'
+  arms: Array<{
+    label: string
+    color: string
+    data: KmDatum[]
+  }>
+  logRankP?: number
+}
+
+export type AmputationBarData = {
+  variant: 'bar'
+  cohorts: Array<{
+    label: string
+    right: number  // LTF_AMP_R rate %
+    left: number   // LTF_AMP_L rate %
+  }>
+}
+
+export const amputationKmData: AmputationKmData = {
+  variant: 'km',
+  logRankP: 0.041,
+  arms: [
+    {
+      label: 'Diabetic', color: '#4F86C6',
+      data: [
+        { time: 0,  survival: 1.00, ci_lower: 1.00, ci_upper: 1.00, at_risk: 198 },
+        { time: 6,  survival: 0.97, ci_lower: 0.94, ci_upper: 0.99, at_risk: 185 },
+        { time: 12, survival: 0.94, ci_lower: 0.90, ci_upper: 0.97, at_risk: 171 },
+        { time: 18, survival: 0.91, ci_lower: 0.87, ci_upper: 0.95, at_risk: 152 },
+        { time: 24, survival: 0.88, ci_lower: 0.83, ci_upper: 0.92, at_risk: 131 },
+        { time: 30, survival: 0.85, ci_lower: 0.79, ci_upper: 0.90, at_risk: 104 },
+        { time: 36, survival: 0.82, ci_lower: 0.76, ci_upper: 0.88, at_risk:  78 },
+      ],
+    },
+    {
+      label: 'Non-Diabetic', color: '#E07B54',
+      data: [
+        { time: 0,  survival: 1.00, ci_lower: 1.00, ci_upper: 1.00, at_risk: 355 },
+        { time: 6,  survival: 0.99, ci_lower: 0.97, ci_upper: 1.00, at_risk: 338 },
+        { time: 12, survival: 0.97, ci_lower: 0.95, ci_upper: 0.99, at_risk: 318 },
+        { time: 18, survival: 0.96, ci_lower: 0.93, ci_upper: 0.98, at_risk: 292 },
+        { time: 24, survival: 0.94, ci_lower: 0.91, ci_upper: 0.96, at_risk: 261 },
+        { time: 30, survival: 0.93, ci_lower: 0.90, ci_upper: 0.95, at_risk: 218 },
+        { time: 36, survival: 0.92, ci_lower: 0.88, ci_upper: 0.94, at_risk: 172 },
+      ],
+    },
+  ],
+}
+
+export const amputationBarData: AmputationBarData = {
+  variant: 'bar',
+  cohorts: [
+    { label: 'Diabetic',     right: 5.1, left: 4.3 },
+    { label: 'Non-Diabetic', right: 1.8, left: 1.4 },
+    { label: 'Smoker',       right: 3.9, left: 3.2 },
+    { label: 'Non-Smoker',   right: 1.5, left: 1.1 },
+  ],
+}
