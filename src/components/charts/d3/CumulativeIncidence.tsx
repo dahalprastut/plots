@@ -23,9 +23,11 @@ export function CumulativeIncidence() {
 
     function draw() {
       const { width, height } = container!.getBoundingClientRect()
-      if (width === 0 || height === 0) return
 
+      // Remove previous tooltip unconditionally before any early returns
       d3.select(container).selectAll(`.${TOOLTIP_CLASS}`).remove()
+
+      if (width === 0 || height === 0) return
 
       const innerWidth = width - MARGIN.left - MARGIN.right
       const innerHeight = height - MARGIN.top - MARGIN.bottom
