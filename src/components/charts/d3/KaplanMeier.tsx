@@ -106,21 +106,22 @@ export function KaplanMeier() {
         .attr('fill', 'none')
 
       const totalLength = (path.node() as SVGPathElement).getTotalLength()
+      const censored = approximateCensored(kmData)
       path
         .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
         .attr('stroke-dashoffset', totalLength)
         .transition().duration(1500).ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0)
-
-      // ── Censoring tick marks ────────────────────────────────────────────────────
-      const censored = approximateCensored(kmData)
-      kmData.forEach((d, i) => {
-        if (i === 0 || censored[i] === 0) return
-        g.append('line')
-          .attr('x1', x(d.time)).attr('x2', x(d.time))
-          .attr('y1', y(d.survival) - 5).attr('y2', y(d.survival) + 5)
-          .attr('stroke', COLOR).attr('stroke-width', 1.5)
-      })
+        .on('end', () => {
+          // Censoring tick marks — rendered after curve animation completes
+          kmData.forEach((d, i) => {
+            if (i === 0 || censored[i] === 0) return
+            g.append('line')
+              .attr('x1', x(d.time)).attr('x2', x(d.time))
+              .attr('y1', y(d.survival) - 5).attr('y2', y(d.survival) + 5)
+              .attr('stroke', COLOR).attr('stroke-width', 1.5)
+          })
+        })
 
       // ── At-risk table ───────────────────────────────────────────────────────────
       const riskY = innerHeight + MARGIN.bottom
@@ -144,7 +145,7 @@ export function KaplanMeier() {
       })
 
       // ── Hover crosshair ─────────────────────────────────────────────────────────
-      const bisect = d3.bisector<KmDatum, number>(d => d.time).right
+      const bisect = d3.bisector<KmDatum, number>(d => d.time).left
 
       const crosshair = g.append('line')
         .attr('y1', 0).attr('y2', innerHeight)

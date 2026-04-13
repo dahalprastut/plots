@@ -1,5 +1,5 @@
 import { ChartCard } from '@/components/charts/ChartCard'
-import { KaplanMeier } from '@/components/charts/d3/KaplanMeier'
+import { KaplanMeier } from '@/components/charts/d3'
 
 export default function D3Page() {
   return (
