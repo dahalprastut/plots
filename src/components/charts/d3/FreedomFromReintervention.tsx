@@ -212,7 +212,7 @@ export function FreedomFromReintervention({
           const ty = Math.max(MARGIN.top, y(arms[0].data[idx].survival) + MARGIN.top - 30)
           tooltip.style('display', 'block')
             .style('left', `${tx}px`).style('top', `${ty}px`)
-            .html(`Time: ${nearestT} mo<br>${lines}`)
+            .html(`Time: ${nearestT} ${timeUnit}<br>${lines}`)
         })
         .on('mouseleave', () => {
           crosshair.attr('display', 'none')
