@@ -85,6 +85,7 @@ function AmputationKm({ arms, logRankP }: AmputationKmData) {
 }
 
 function AmputationBar({ cohorts }: AmputationBarData) {
+  if (!cohorts.length) return null
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={cohorts} margin={{ top: 20, right: 20, bottom: 20, left: 40 }}>
