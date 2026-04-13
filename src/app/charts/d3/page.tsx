@@ -1,6 +1,6 @@
 // src/app/charts/d3/page.tsx
 import { ChartCard } from '@/components/charts/ChartCard'
-import { KaplanMeier, FreedomFromReintervention } from '@/components/charts/d3'
+import { KaplanMeier, FreedomFromReintervention, CumulativeIncidence } from '@/components/charts/d3'
 import { freedomFromReinterventionData } from '@/lib/chart-data'
 
 export default function D3Page() {
@@ -18,6 +18,9 @@ export default function D3Page() {
         </ChartCard>
         <ChartCard name="Freedom from Reintervention" priority="P0" height="h-[500px]">
           <FreedomFromReintervention {...freedomFromReinterventionData} />
+        </ChartCard>
+        <ChartCard name="Cumulative Incidence Curve" priority="P2" height="h-[400px]">
+          <CumulativeIncidence />
         </ChartCard>
       </div>
     </>
