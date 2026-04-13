@@ -1,5 +1,7 @@
+// src/app/charts/d3/page.tsx
 import { ChartCard } from '@/components/charts/ChartCard'
-import { KaplanMeier } from '@/components/charts/d3'
+import { KaplanMeier, FreedomFromReintervention } from '@/components/charts/d3'
+import { freedomFromReinterventionData } from '@/lib/chart-data'
 
 export default function D3Page() {
   return (
@@ -13,6 +15,9 @@ export default function D3Page() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <ChartCard name="Kaplan-Meier Survival Curve" priority="P0" height="h-[460px]">
           <KaplanMeier />
+        </ChartCard>
+        <ChartCard name="Freedom from Reintervention" priority="P0" height="h-[500px]">
+          <FreedomFromReintervention {...freedomFromReinterventionData} />
         </ChartCard>
       </div>
     </>
