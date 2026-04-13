@@ -10,10 +10,12 @@ export function ChartCard({
   name,
   priority,
   children,
+  height = 'h-[400px]',
 }: {
   name: string
   priority: Priority
   children: React.ReactNode
+  height?: string
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -23,7 +25,7 @@ export function ChartCard({
           {priority}
         </span>
       </div>
-      <div className="h-[400px]">{children}</div>
+      <div className={height}>{children}</div>
     </div>
   )
 }

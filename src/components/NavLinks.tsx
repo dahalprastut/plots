@@ -5,11 +5,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const LIBRARIES = [
-  { label: 'Recharts', href: '/charts/recharts' },
-  { label: 'Plotly',   href: '/charts/plotly'   },
-  { label: 'Nivo',     href: '/charts/nivo'     },
-  { label: 'ECharts',  href: '/charts/echarts'  },
-  { label: 'D3',       href: '/charts/d3'       },
+  { label: 'P0 Charts', href: '/charts/p0'       },
+  { label: 'Recharts',  href: '/charts/recharts'  },
+  { label: 'Plotly',    href: '/charts/plotly'    },
+  { label: 'Nivo',      href: '/charts/nivo'      },
+  { label: 'ECharts',   href: '/charts/echarts'   },
+  { label: 'D3',        href: '/charts/d3'        },
 ] as const
 
 export function NavLinks() {
