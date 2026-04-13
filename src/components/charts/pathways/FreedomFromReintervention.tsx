@@ -3,7 +3,10 @@ import dynamic from 'next/dynamic'
 import { FreedomFromReinterventionData } from '@/lib/chart-data'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
+const Plot = dynamic(() => import('react-plotly.js'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse rounded bg-gray-100" />,
+}) as any
 
 function hexToRgba(hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -17,6 +20,7 @@ export function FreedomFromReintervention({
   logRankP,
   timeUnit = 'months',
 }: FreedomFromReinterventionData) {
+  if (!arms.length) return null
   const timePoints = arms[0].data.map((d) => d.time)
 
   // Build KM traces: for each arm — CI upper (invisible), CI lower (tonexty fill), survival line
@@ -92,6 +96,8 @@ export function FreedomFromReintervention({
     },
   }
 
+  const pText = logRankP < 0.001 ? 'Log-rank p < 0.001' : `Log-rank p = ${logRankP.toFixed(3)}`
+
   const layout = {
     height: 520,
     yaxis: {
@@ -122,7 +128,7 @@ export function FreedomFromReintervention({
     },
     annotations: [
       {
-        text: `Log-rank p = ${logRankP}`,
+        text: pText,
         xref: 'paper',
         yref: 'paper',
         x: 0.98,
