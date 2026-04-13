@@ -31,7 +31,7 @@ export function Heatmap() {
                     <div
                       title={`${row} × ${col}: ${val}`}
                       className="flex h-16 w-28 cursor-default items-center justify-center rounded text-sm font-bold text-white transition-opacity hover:opacity-80"
-                      style={{ backgroundColor: `rgba(79,134,198,${0.2 + val * 0.8})` }}
+                      style={{ backgroundColor: `rgba(79,134,198,${0.2 + Math.min(1, Math.max(0, val)) * 0.8})` }}
                     >
                       {val.toFixed(2)}
                     </div>
